@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convite para o Ludo</title>
+  <meta name="description" content="Você foi convidado para uma partida de Ludo.">
+  <style>
+    :root { --bg: #1b2150; --card: #ffffff; --ink: #1e2240; --muted: #6b7194; --green: #22b45e; --blue: #3b82f6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+           background: var(--bg); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); padding: 16px; }
+    .card { background: var(--card); border-radius: 24px; max-width: 420px; width: 100%; padding: 28px 22px; text-align: center;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, .35); }
+    .logo { display: flex; justify-content: center; gap: 6px; margin-bottom: 14px; }
+    .logo span { width: 46px; height: 46px; border-radius: 12px; color: #fff; font-weight: 800; font-size: 28px;
+                 display: flex; align-items: center; justify-content: center; }
+    h1 { font-size: 22px; margin: 6px 0 4px; }
+    p { color: var(--muted); margin: 6px 0; line-height: 1.4; }
+    .code { font-size: 40px; font-weight: 800; letter-spacing: 8px; margin: 14px 0; color: var(--ink); }
+    a.button, button { display: block; width: 100%; border: 0; border-radius: 14px; padding: 15px; margin-top: 12px;
+                       font-size: 18px; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .open { background: var(--green); color: #fff; }
+    .copy { background: #e8ebf5; color: var(--ink); }
+    small { display: block; margin-top: 16px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo" aria-hidden="true">
+      <span style="background:#ef4444">L</span><span style="background:#22b45e">U</span><span style="background:#f5b50e">D</span><span style="background:#3b82f6">O</span>
+    </div>
+    <h1>Você foi convidado para jogar!</h1>
+    <p>Código da sala:</p>
+    <div class="code" id="code">------</div>
+    <a class="button open" id="open" href="#">Abrir no Ludo</a>
+    <button class="copy" id="copy" type="button">Copiar código</button>
+    <p id="help">Sem o app? Peça o jogo para quem te convidou. Depois abra o Ludo, toque em <b>JOGAR ONLINE</b> e entre com o código acima.</p>
+    <small>Com o Ludo instalado, tocar no link do convite abre o jogo direto na sala.</small>
+  </main>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var code = (params.get("c") || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+      var codeEl = document.getElementById("code");
+      var open = document.getElementById("open");
+      if (!code) {
+        codeEl.textContent = "------";
+        open.style.display = "none";
+        document.getElementById("copy").style.display = "none";
+        document.getElementById("help").textContent = "Este convite não tem código de sala. Peça um novo convite.";
+        return;
+      }
+      codeEl.textContent = code;
+      // Android: an intent link opens the game when it is installed, even from inside a browser tab.
+      open.href = "intent://pastgilgamesh.github.io/ludo/sala/?c=" + code +
+        "#Intent;scheme=https;package=io.github.pastgilgamesh.ludo;end";
+      document.getElementById("copy").addEventListener("click", function () {
+        var done = function () { document.getElementById("copy").textContent = "Código copiado!"; };
+        if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done); else done();
+      });
+    })();
+  </script>
+</body>
+</html>

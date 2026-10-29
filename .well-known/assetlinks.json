@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.pastgilgamesh.ludo",
+      "sha256_cert_fingerprints": [
+        "C1:DD:C1:CE:3C:CD:29:F3:B3:6D:12:D2:6C:EE:48:FB:DF:DC:58:D8:DF:12:01:A1:6C:11:52:9C:D8:61:DB:BF"
+      ]
+    }
+  }
+]
